@@ -1,21 +1,22 @@
-create table if not exists Genre (
-	Id serial primary key,
-	Name varchar(40) not null
+CREATE TABLE IF NOT EXISTS genre (
+	id serial primary key,
+	name varchar(40) not null
 );
-create table if not exists Performer (
-	Id serial primary key,
-	Name varchar(40) not null,
-	Alias varchar(40),
-	Genre_id integer references Genre(id) not null
+CREATE TABLE IF NOT EXISTS performer (
+	id serial primary key,
+	name varchar(40) not null,
+	alias varchar(40),
+	genre_id integer references genre(id) not null
 );
-create table if not exists Album (
-	Id serial primary key,
-	Name date not null,
-	Performer_id integer references Performer(id) not null
+CREATE TABLE IF NOT EXISTS album (
+	id serial primary key,
+	name varchar(40) not null,
+	date_publication date not null,
+	performer_id integer references performer(id) not null
 );
-create table if not exists Track (
-	Id serial primary key,
-	Name date not null,
-	Duration numeric not null,
-	Album_id integer references Album(id) not null
+CREATE TABLE IF NOT EXISTS track (
+	id serial primary key,
+	name varchar(40) not null,
+	duration numeric not null,
+	album_id integer references album(id) not null
 );
