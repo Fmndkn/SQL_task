@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS Genre (
+CREATE TABLE IF NOT EXISTS genre (
 	id serial PRIMARY KEY,
 	Name varchar(40) not null
 );
@@ -10,27 +10,31 @@ CREATE TABLE IF NOT EXISTS performer (
 CREATE TABLE IF NOT EXISTS album (
 	id serial PRIMARY KEY,
 	name varchar(40) not null,
-	date_publication date not null
-);
-CREATE TABLE IF NOT EXISTS performer_album (
-	id serial PRIMARY KEY,
-	album_id integer references album(id) not null,
-	performer_id integer references performer(id) not null
-);
-CREATE TABLE IF NOT EXISTS performer_genre (
-	id serial PRIMARY KEY,
-	genre_id integer references genre(id) not null,
-	performer_id integer references performer(id) not null
+	release_date date not null
 );
 CREATE TABLE IF NOT EXISTS track (
 	id serial PRIMARY KEY,
 	name varchar(40) not null,
 	duration numeric not null,
-	album_id integer references album(id) not null
+	album_id integer not null references album(id)
 );
 CREATE TABLE IF NOT EXISTS collection (
 	id serial PRIMARY KEY,
 	name varchar(40) not null,
-	date_publication date not null,
-	track_id integer references track(id) not null
+	release_date date not null
+);
+CREATE TABLE IF NOT EXISTS performer_album (
+	album_id integer not null references album(id),
+	performer_id integer not null references performer(id),
+	constraint pk PRIMARY KEY key(performer_id, album_id)
+);
+CREATE TABLE IF NOT EXISTS performer_genre (
+	genre_id integer not null references genre(id),
+	performer_id integer not null references performer(id),
+	constraint pk PRIMARY KEY key(performer_id, genre_id)
+);
+CREATE TABLE IF NOT EXISTS collection_track (
+	track_id integer not null references track(id),
+	collection_id integer not null references collection(id),
+	constraint pk PRIMARY KEY key(track_id, collection_id)
 );
